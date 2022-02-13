@@ -34,7 +34,7 @@ go
 -- insertar en tabla empleados
 INSERT INTO salarios (salary,employee_id,employee_name)
 VALUES
-    (500, 123, 'John Doe'),
+    (450, 123, 'John Doe'),
     (600, 211, 'Jane Smith'),
     (1000, 556, 'Billy Bob'),
 	(400, 711, 'Robert Hayek'),
@@ -45,12 +45,10 @@ go
 -- consulta de departamento con salario menor a $500
 CREATE PROCEDURE sp_sal_dep
 as
-	SELECT e.department_name AS Departament, e.employee_name AS Employee, s.salary AS Salary
-	FROM employees e
-	INNER JOIN salarios s
-	ON e.employee_id = s.employee_id
-	AND s.salary < 500  
-	ORDER BY e.department_name;
+	SELECT e.department_name AS Departamento, AVG(s.salary) AS Salarios_Promedio
+	FROM employees e INNER JOIN salarios s on e.employee_id = s.employee_id
+	GROUP BY e.department_name
+	HAVING AVG(s.salary) < 500
 go
 
 exec sp_sal_dep
